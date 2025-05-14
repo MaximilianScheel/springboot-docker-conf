@@ -1,6 +1,7 @@
 package com.springdocker;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,19 +10,19 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/software-engineers")
 public class SoftwareEngineerController {
+
+    private final SoftwareEngineerService softwareEngineerService;
+
+    public SoftwareEngineerController(SoftwareEngineerService softwareEngineerService) {
+        this.softwareEngineerService = softwareEngineerService;
+    }
     @GetMapping
     public List<SoftwareEngineer> getSoftwareEngineers() {
-        return List.of(
-                new SoftwareEngineer(
-                1,
-                "John Doe",
-                "Java, Spring Boot"
-                ),
-                new SoftwareEngineer(
-                        2,
-                        "Thomas Anders",
-                        "JS, Node, React, Tailwind"
-                )
-        );
+        return softwareEngineerService.getAllSoftwareEngineers();
+    }
+
+    @PostMapping
+    public void addNewSoftwareEngineer(SoftwareEngineer softwareEngineer) {
+        softwareEngineerService.insertSoftwareEngineer(softwareEngineer);
     }
 }
